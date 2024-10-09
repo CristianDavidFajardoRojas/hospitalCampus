@@ -2,6 +2,7 @@ const express = require('express');
 const { join } = require('path')
 
 const openningRouter = require('./api/router/openningRouter')
+const doctorsRouter = require('./api/router/doctorsRouter')
 
 const app = express();
 
@@ -16,6 +17,11 @@ app.use("/", (req, res, next)=>{
     req.__dirname = __dirname;
     next()
 }, openningRouter);
+
+app.use("/doctores", (req, res, next)=>{
+    req.__dirname = __dirname;
+    next()
+}, doctorsRouter);
 
 
 
