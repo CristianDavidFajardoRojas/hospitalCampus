@@ -13,7 +13,7 @@ CREATE TABLE `hospitales` (
 
 CREATE TABLE `comunicacion_hospital` (
     `hospital_fk` INT NOT NULL,
-    `tipo` ENUM('') NOT NULL,
+    `tipo` ENUM('email', 'phone', 'other') NOT NULL,
     `contacto` VARCHAR(20) NOT NULL,
     PRIMARY KEY(`hospital_fk`),
     UNIQUE KEY `comunicacion_hospital_contacto_unique`(`contacto`)
@@ -29,9 +29,9 @@ CREATE TABLE `pacientes` (
     PRIMARY KEY(`cedula`)
 );
 
-CREATE TABLE `comunicacion_paci` (
+CREATE TABLE `comunicacion_pacientes` (
     `paciente_fk` INT NOT NULL,
-    `tipo` ENUM('') NOT NULL,
+    `tipo` ENUM('email', 'phone', 'other') NOT NULL,
     `contacto` VARCHAR(100) NOT NULL,
     PRIMARY KEY(`paciente_fk`)
 );
@@ -56,7 +56,7 @@ CREATE TABLE `personal` (
 
 CREATE TABLE `comunicacion_doctores` (
     `doctor_fk` INT NOT NULL,
-    `tipo` ENUM('') NOT NULL,
+    `tipo` ENUM('email', 'phone', 'other') NOT NULL,
     `contacto` VARCHAR(255) NOT NULL,
     CONSTRAINT `comunicacion_doctores_doctor_fk_foreign` FOREIGN KEY(`doctor_fk`) REFERENCES `doctores`(`id`),
     UNIQUE KEY `comunicacion_doctores_contacto_unique`(`contacto`)
@@ -72,17 +72,17 @@ CREATE TABLE `avisos` (
     CONSTRAINT `avisos_hospital_fk_foreign` FOREIGN KEY(`hospital_fk`) REFERENCES `hospitales`(`nit`)
 );
 
-CREATE TABLE `cuentas` (
-    `id` INT NOT NULL,
-    `paciente_fk` INT NOT NULL,
-    `hospital_fk` INT NOT NULL,
-    `precio` DOUBLE NOT NULL,
-    `fecha` DATETIME NOT NULL,
-    `motivo` TEXT NOT NULL,
-    PRIMARY KEY(`id`),
-    CONSTRAINT `cuentas_paciente_fk_foreign` FOREIGN KEY(`paciente_fk`) REFERENCES `pacientes`(`cedula`),
-    CONSTRAINT `cuentas_hospital_fk_foreign` FOREIGN KEY(`hospital_fk`) REFERENCES `hospitales`(`nit`)
-);
+    CREATE TABLE `cuentas` (
+        `id` INT NOT NULL,
+        `paciente_fk` INT NOT NULL,
+        `hospital_fk` INT NOT NULL,
+        `precio` DOUBLE NOT NULL,
+        `fecha` DATETIME NOT NULL,
+        `motivo` TEXT NOT NULL,
+        PRIMARY KEY(`id`),
+        CONSTRAINT `cuentas_paciente_fk_foreign` FOREIGN KEY(`paciente_fk`) REFERENCES `pacientes`(`cedula`),
+        CONSTRAINT `cuentas_hospital_fk_foreign` FOREIGN KEY(`hospital_fk`) REFERENCES `hospitales`(`nit`)
+    );
 
 CREATE TABLE `historial_medico` (
     `id` INT NOT NULL,
