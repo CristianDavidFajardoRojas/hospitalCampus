@@ -6,8 +6,8 @@ const doctors = express();
 
 
 doctors.get("/all", controllerDoctors.searchAll);
-doctors.get("/:id", controllerDoctors.searchById);
-doctors.post("/", file, controllerDoctors.save);
+doctors.get("/doctorId/:id", controllerDoctors.searchById);
+doctors.post("/postDoctor", file, controllerDoctors.save);
 doctors.put("/:id", express.json(), controllerDoctors.update);
 doctors.delete("/:id", controllerDoctors.delete)
 
