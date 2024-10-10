@@ -51,7 +51,6 @@ class Doctor extends Conexion {
     async deleteDoctor(id) {
         try{
             let driver = await this.conexion;
-            console.log(id)
             const [results] = await driver.data.query(
                 'DELETE FROM doctores WHERE id = ?',
                 [id]
@@ -63,6 +62,22 @@ class Doctor extends Conexion {
     }
 
 
+
+    async updateDoctor(id, data) {
+        try{
+            let driver = await this.conexion;
+            const [[doctorOriginal]] = await driver.data.query(
+                'SELECT * FROM doctores WHERE id = ?', [id]
+            );
+            const [results] = await driver.data.query(
+                'UPDATE doctores SET nombre_completo = ?, genero = ?, especialidad_fk = ?, fecha_nacimiento = ?, estado = ? WHERE id = ?',
+                [data.nombre_completo ? data.nombre_completo : doctorOriginal.nombre_completo, data.genero ? data.genero : doctorOriginal.genero, data.especialidad_fk ? data.especialidad_fk : doctorOriginal.especialidad_fk, data.fecha_nacimiento ? data.fecha_nacimiento : doctorOriginal.fecha_nacimiento, data.estado ? data.estado : doctorOriginal.estado, id]
+            );
+            return {status: 200, message: 'Informacion del doctor actualizada existosamente.', data: results}
+        } catch (error) {
+            throw new Error(JSON.stringify({status: 500, message: 'Ocurrio un error al insertar el doctor.', data: error}))
+        }
+    }
 
 
 

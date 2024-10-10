@@ -40,10 +40,23 @@ exports.save = async (req, res) => {
 exports.delete = async (req, res) => {
     try {
         let doctors = new Doctors();
-        let resInsert = await doctors.deleteDoctor(req.params.id);
-        return res.status(resInsert.status).json(resInsert);
+        let resDelete = await doctors.deleteDoctor(req.params.id);
+        return res.status(resDelete.status).json(resDelete);
     } catch (error) {
         let err = JSON.parse(error.message);
         if(err.status == 500) return res.status(err.status).json(err);
     }
 }
+
+
+exports.update = async (req, res) => {
+    try {
+        let doctors = new Doctors();
+        let resUpdate = await doctors.updateDoctor(req.params.id, req.body);
+        return res.status(resUpdate.status).json(resUpdate);
+    } catch (error) {
+        let err = JSON.parse(error.message);
+        if(err.status == 500) return res.status(err.status).json(err);
+    }
+}
+
