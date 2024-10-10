@@ -35,3 +35,15 @@ exports.save = async (req, res) => {
     }
 }
 
+
+
+exports.delete = async (req, res) => {
+    try {
+        let doctors = new Doctors();
+        let resInsert = await doctors.deleteDoctor(req.params.id);
+        return res.status(resInsert.status).json(resInsert);
+    } catch (error) {
+        let err = JSON.parse(error.message);
+        if(err.status == 500) return res.status(err.status).json(err);
+    }
+}

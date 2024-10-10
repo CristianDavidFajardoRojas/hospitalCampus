@@ -22,7 +22,8 @@ class Doctor extends Conexion {
             const [results] = await driver.data.query(
                 'SELECT * FROM doctores WHERE id = ?', [id]
             );
-            return {status: 200, message: 'Informacion del doctor encontrada existosamente.', data: results}
+            let resConsult = results.length != 0 ? {status: 200, message: 'Informacion del doctor encontrada existosamente.', data: results} : {status: 404, message: 'Doctor no registrado en la base de datos'};
+            return resConsult
         } catch (error) {
             throw new Error(JSON.stringify({status: 500, message: 'Ocurrio un error al obtener el doctor.', data: error}))
         }
@@ -46,6 +47,20 @@ class Doctor extends Conexion {
         }
     }
 
+
+    async deleteDoctor(id) {
+        try{
+            let driver = await this.conexion;
+            console.log(id)
+            const [results] = await driver.data.query(
+                'DELETE FROM doctores WHERE id = ?',
+                [id]
+            );
+            return {status: 200, message: 'Informacion del doctor eliminada existosamente.', data: results}
+        } catch (error) {
+            throw new Error(JSON.stringify({status: 500, message: 'Ocurrio un error al eliminar el doctor.', data: error}))
+        }
+    }
 
 
 
